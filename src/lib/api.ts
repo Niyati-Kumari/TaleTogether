@@ -14,18 +14,8 @@ const getApiBaseUrl = (): string => {
   // Check if we're in a Capacitor environment
   const isCapacitor = (window as any).Capacitor?.isNativePlatform();
   if (isCapacitor) {
-    // For native apps, you'll need to use your actual server URL (not localhost)
-    // For development on emulators:
-    // - Android emulator uses 10.0.2.2 to access host localhost
-    // - iOS simulator uses localhost to access host localhost
-    // Replace this with your production/staging server URL when deploying!
-    const platform = (window as any).Capacitor?.getPlatform();
-    if (platform === 'android') {
-      return 'http://10.0.2.2:8787';
-    } else {
-      // iOS or other
-      return 'http://localhost:8787';
-    }
+    // For native apps, use the production server URL
+    return 'https://taletogether-production.up.railway.app';
   }
   // For web, use relative URLs (Vite proxy in dev, direct in production)
   return '';
