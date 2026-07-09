@@ -11,14 +11,21 @@ const TOKEN_KEY = 'taletogether-token';
 
 // Determine API base URL based on environment
 const getApiBaseUrl = (): string => {
+  const configuredBaseUrl = import.meta.env.VITE_API_URL?.trim();
+  if (configuredBaseUrl) {
+    return configuredBaseUrl.replace(/\/$/, '');
+  }
+
   // Check if we're in a Capacitor environment
   const isCapacitor = (window as any).Capacitor?.isNativePlatform();
   if (isCapacitor) {
     // For native apps, use the production server URL
     return 'https://taletogether-production.up.railway.app';
   }
-  // For web, use relative URLs (Vite proxy in dev, direct in production)
-  return '';
+
+  // For local development, use relative URLs so Vite can proxy /api.
+  // For production web builds, point to the Railway backend.
+  return import.meta.env.DEV ? '' : 'https://taletogether-production.up.railway.app';
 };
 
 const API_BASE_URL = getApiBaseUrl();
