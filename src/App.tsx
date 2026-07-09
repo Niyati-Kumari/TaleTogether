@@ -298,13 +298,16 @@ export default function App() {
     alert(`Subscription to plan ${planId} would be processed here!`);
     // Mock successful subscription
     if (currentUser) {
-      setBootstrap((prev) => ({
-        ...prev,
-        user: {
-          ...prev.user,
-          subscriptionTier: "premium",
-        },
-      }));
+      setBootstrap((prev) => {
+        if (!prev.user) return prev;
+        return {
+          ...prev,
+          user: {
+            ...prev.user,
+            subscriptionTier: "premium",
+          },
+        };
+      });
     }
   };
 
